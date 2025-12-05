@@ -123,10 +123,6 @@ taskkill /PID <PID> /F
 - **Owner**: Aditi2705
 - **Branch**: main
 
-## License
-
-MIT License - See LICENSE file for details
-
 ---
 
 **Version**: 1.0.0 | **Updated**: December 2025
