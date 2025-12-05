@@ -1,0 +1,115 @@
+/* -----------------------------
+       Teacher Portal Styles
+       Single-file (embedded) CSS
+       ----------------------------- */
+    :root{
+      --primary:#007bff; /* blue */
+      --accent:#20c997; /* teal/green */
+      --danger:#dc3545; /* red */
+      --muted:#6c757d;
+      --bg:#f8f9fa;
+      --card:#fff;
+      --shadow: 0 6px 18px rgba(0,0,0,0.08);
+      --radius:10px;
+      --trans:300ms;
+      /* Open Sans font for clean, consistent typography */
+      font-family: 'Open Sans', -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Open Sans', -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      font-weight: 700;
+    }
+    html,body{height:100%;margin:0;background:var(--bg);color:#222}
+    .container{max-width:1100px;margin:20px auto;padding:14px}
+
+    /* Header */
+    header.portal{
+      display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:18px;
+    }
+    .portal-title{font-size:1.25rem;font-weight:600;color:var(--primary)}
+    .teacher-meta{color:var(--muted);font-size:0.9rem}
+    .top-actions{display:flex;gap:12px;align-items:center}
+    .btn{padding:10px 14px;border-radius:8px;border:0;cursor:pointer;font-weight:600;transition:all var(--trans) ease;}
+    .btn-logout{background:#fff;border:1px solid #e6e6e6;color:var(--muted)}
+
+    /* Card */
+    .card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
+
+  /* Navigation tabs */
+  .portal-nav{display:flex;gap:8px;margin:12px 0 6px 0}
+  .nav-tab{background:#f3f4f6;border:1px solid #e6e6e6;padding:10px 14px;border-radius:8px;cursor:pointer;font-weight:600;transition:all 220ms}
+  .nav-tab.active{background:#fff;border-bottom:3px solid var(--primary);box-shadow:0 6px 14px rgba(0,0,0,0.04);color:var(--primary)}
+
+  /* Tab content transition */
+  .tab-content{transition:opacity 300ms ease, transform 300ms ease}
+  .tab-hidden{opacity:0;pointer-events:none;transform:translateY(6px);height:0;overflow:hidden}
+  .tab-visible{opacity:1;transform:none}
+
+    /* Setup section */
+    .setup{display:block;margin-top:12px}
+    .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+    .field{display:flex;flex-direction:column}
+    label{font-size:0.85rem;margin-bottom:6px;color:var(--muted)}
+    select{padding:10px 12px;border-radius:8px;border:1px solid #ddd;background:#fff}
+    .actions-row{margin-top:16px;display:flex;justify-content:space-between;align-items:center}
+    .error{color:var(--danger);font-size:0.85rem;display:none}
+    .error.show{display:block}
+
+    /* Attendance area */
+    .attendance{margin-top:18px;display:none;opacity:0;transform:translateY(6px);transition:all var(--trans) ease}
+    .attendance.show{display:block;opacity:1;transform:none}
+    .session-info{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+    .info-card{background:linear-gradient(180deg,#fff,#fbfbfb);padding:12px;border-radius:8px;border:1px solid #eee;min-width:200px}
+    .info-card b{display:block}
+
+    /* Table */
+    .table-wrap{background:var(--card);border-radius:8px;border:1px solid #eee;overflow:auto;max-height:420px}
+    table{width:100%;border-collapse:collapse;min-width:720px}
+    thead th{position:sticky;top:0;background:#fff;padding:10px 12px;text-align:left;border-bottom:1px solid #eee}
+    tbody td{padding:10px 12px;border-bottom:1px solid #f2f2f2}
+    tbody tr:nth-child(odd){background:#fbfcfe}
+    tbody tr:hover{background:#f1f7ff}
+  .status-toggle{display:inline-flex;gap:6px}
+  /* Per-row toggles: neutral by default, colored when active */
+  .toggle-btn{padding:6px 10px;border-radius:6px;border:1px solid #dcdcdc;cursor:pointer;transition:all 160ms;font-weight:600;color:#333;background:#f3f4f6}
+  .toggle-btn:hover{filter:brightness(0.98);transform:translateY(-1px)}
+  /* Active state: white bold text and colored background */
+  .toggle-btn.active{color:#fff;font-weight:700}
+  .toggle-btn.active.present{background:linear-gradient(180deg,#20c997,#158a44);border-color:#11733a;box-shadow:0 6px 12px rgba(21,138,68,0.12)}
+  .toggle-btn.active.absent{background:linear-gradient(180deg,#ff6b6b,#d43d3d);border-color:#b21f2d;box-shadow:0 6px 12px rgba(212,61,61,0.12)}
+
+  /* Bulk action buttons styling (smaller) */
+  /* Bulk buttons: neutral by default, colored when active */
+  .bulk-actions .toggle-btn{padding:6px 8px;font-size:0.9rem;font-weight:600;color:#333;background:#f3f4f6;border:1px solid #dcdcdc}
+  .bulk-actions .toggle-btn:hover{filter:brightness(0.98);}
+  .bulk-actions .toggle-btn.active{color:#fff;outline:3px solid rgba(255,255,255,0.08);box-shadow:0 8px 18px rgba(0,0,0,0.12);transform:translateY(-1px)}
+  /* Bulk active colors */
+  .bulk-actions .toggle-btn#allPresent.active{background:linear-gradient(180deg,#20c997,#158a44);border-color:#11733a}
+  .bulk-actions .toggle-btn#allAbsent.active{background:linear-gradient(180deg,#ff6b6b,#d43d3d);border-color:#b21f2d}
+
+    .summary{margin-top:10px;display:flex;gap:16px;align-items:center;font-weight:600}
+
+    .table-actions{display:flex;gap:12px;margin-top:12px;justify-content:flex-end}
+    .btn-primary{background:linear-gradient(180deg,var(--primary),#0056b3);color:#fff}
+    .btn-secondary{background:#f5f5f5;border:1px solid #e7e7e7;color:#333}
+    .btn-danger{background:linear-gradient(180deg,var(--danger),#b21f2d);color:#fff}
+    .btn[disabled]{opacity:0.55;cursor:not-allowed}
+
+    /* Modal */
+  .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.45);display:none;align-items:center;justify-content:center;z-index:60}
+    .modal-backdrop.show{display:flex}
+    .modal{background:var(--card);padding:18px;border-radius:10px;max-width:480px;width:100%;box-shadow:var(--shadow);transform:scale(.98);opacity:0;transition:all 220ms}
+    .modal.show{transform:scale(1);opacity:1}
+    .modal h3{margin-top:0}
+    .modal p{color:var(--muted)}
+    .modal .modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:12px}
+
+  /* Toast / snackbar */
+  .toast{position:fixed;right:20px;bottom:24px;background:#222;color:#fff;padding:10px 14px;border-radius:8px;box-shadow:0 8px 22px rgba(0,0,0,0.15);opacity:0;transform:translateY(8px);transition:all 280ms;z-index:80;pointer-events:none}
+  .toast.show{opacity:1;transform:translateY(0);pointer-events:auto}
+  .toast.success{background:linear-gradient(180deg,#1b8b4a,#0f5f36)}
+  .toast .msg{font-weight:600}
+
+    /* Responsive */
+    @media (max-width:900px){.grid-4{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:600px){.grid-4{grid-template-columns:1fr}.container{padding:12px}}

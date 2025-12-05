@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Teacher's Portal — Smart Attendance</title>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="teacher-portal.css">
+</head>
+<body>
+  <div class="container">
+    <header class="portal">
+      <div>
+        <div class="portal-title">Attendance Portal</div>
+        <div class="teacher-meta">Prof. R. K. Sharma &middot; rk.sharma@college.edu</div>
+      </div>
+      <div class="top-actions">
+        <button class="btn btn-logout" id="logoutBtn">Logout</button>
+      </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="portal-nav" role="navigation" aria-label="Main navigation">
+      <button class="nav-tab active" data-tab="mark">Mark Attendance</button>
+      <button class="nav-tab" data-tab="all">All Attendance</button>
+    </nav>
+
+    <!-- SETUP CARD -->
+    <section class="card setup" id="setupSection">
+      <h2 style="margin:0 0 12px 0;text-align:left">Attendance Session Setup</h2>
+      <div class="grid-4" id="setupGrid">
+        <div class="field">
+          <label for="selCourse">Select Class</label>
+          <select id="selCourse"><option value="">-- Select Class --</option></select>
+          <div class="error" id="errCourse">Please select a class.</div>
+        </div>
+        <!-- Batch removed: classnames shown in Course dropdown (Course + Batch combined) -->
+        <div class="field">
+          <label for="selSemester">Select Semester</label>
+          <select id="selSemester"><option value="">-- Select Semester --</option></select>
+          <div class="error" id="errSemester">Please select a semester.</div>
+        </div>
+        <div class="field">
+          <label for="selSubject">Select Subject</label>
+          <select id="selSubject"><option value="">-- Select Subject --</option></select>
+          <div class="error" id="errSubject">Please select a subject.</div>
+        </div>
+      </div>
+      <div class="actions-row">
+        <div class="info" id="setupInfo"></div>
+        <div>
+          <button class="btn btn-primary" id="startBtn" disabled>Start Attendance</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ALL ATTENDANCE SECTION -->
+    <section class="card tab-content tab-hidden" id="allAttendanceSection" aria-hidden="true">
+      <h2 style="margin:0 0 12px 0;text-align:left">All Attendance</h2>
+      <div class="filters-row" style="display:flex;gap:10px;align-items:center;margin-bottom:12px;flex-wrap:wrap">
+        <select id="filterCourse"><option>All Classes</option></select>
+        <select id="filterSubject"><option>All Subjects</option></select>
+        <div style="margin-left:auto;display:flex;gap:8px">
+          <button class="btn btn-secondary" id="resetFilters">Reset Filters</button>
+          <button class="btn btn-primary" id="applyFilters">Apply Filters</button>
+        </div>
+      </div>
+
+      <div class="table-wrap" style="max-height:520px;overflow:auto">
+        <table id="historyTable">
+          <thead>
+            <tr>
+              <th style="width:60px">SNo.</th>
+              <th style="width:200px">Date</th>
+              <th style="width:160px">Course</th>
+              <th style="width:120px">Semester</th>
+              <th>Subject</th>
+              <th style="width:120px">Present/Total</th>
+              <th style="width:120px">Attendance</th>
+              <th style="width:120px">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="historyTbody"></tbody>
+        </table>
+        <div id="noRecords" style="padding:18px;display:none;color:var(--muted)">No attendance records found</div>
+      </div>
+    </section>
+
+    <!-- ATTENDANCE SECTION -->
+    <section class="attendance" id="attendanceSection">
+      <div class="session-info" id="sessionInfo"></div>
+      <div class="card">
+        <div class="table-wrap" id="tableWrap">
+          <table id="studentsTable">
+            <thead>
+              <tr>
+                <th style="width:60px">Sr. No.</th>
+                <th style="width:140px">Roll No.</th>
+                <th>Student Name</th>
+                <th style="width:220px">
+                  Status
+                  <div class="bulk-actions" style="margin-top:6px;display:flex;gap:8px">
+                    <button id="allPresent" class="toggle-btn" title="Mark all Present">All P</button>
+                    <button id="allAbsent" class="toggle-btn" title="Mark all Absent">All A</button>
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="summary" id="summaryBar">
+          <div id="totalCount">Total Students: 0</div>
+          <div id="presentCount">Present: 0</div>
+          <div id="absentCount">Absent: 0</div>
+          <div id="pendingCount">Pending: 0</div>
+        </div>
+        <div class="table-actions">
+          <button class="btn btn-secondary" id="cancelBtn">Cancel</button>
+          <button class="btn btn-primary" id="submitBtn" disabled>Submit</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODALS -->
+    <div class="modal-backdrop" id="submitModal">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="submitTitle">
+        <h3 id="submitTitle">Confirm Submission</h3>
+        <p>Do you want to save the attendance for now? You can update it anytime.</p>
+        <div class="modal-actions">
+          <button class="btn btn-primary" id="submitYes">Yes</button>
+          <button class="btn btn-secondary" id="submitNo">No</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-backdrop" id="cancelModal">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="cancelTitle">
+        <h3 id="cancelTitle">Abort Attendance?</h3>
+        <p>Do you want to abort attendance? All progress will be lost!</p>
+        <div class="modal-actions">
+          <button class="btn btn-danger" id="cancelYes">Yes</button>
+          <button class="btn btn-secondary" id="cancelNo">No</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Logout confirmation modal (separate wording from save modal) -->
+    <div class="modal-backdrop" id="logoutModal">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="logoutTitle">
+        <h3 id="logoutTitle">You have unsaved changes — Save?</h3>
+        <p>If you leave now you can save your attendance and download a copy, or discard changes and logout.</p>
+        <div class="modal-actions">
+          <button class="btn btn-primary" id="logoutSave">Save & Logout</button>
+          <button class="btn btn-secondary" id="logoutDiscard">Don't Save & Logout</button>
+          <button class="btn btn-secondary" id="logoutCancel">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- View detail modal for history entries -->
+    <div class="modal-backdrop" id="viewModal">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="viewTitle">
+        <h3 id="viewTitle">Session Details</h3>
+        <div id="viewContent" style="max-height:320px;overflow:auto;margin-top:8px"></div>
+        <div style="margin-top:12px;display:flex;justify-content:space-between;align-items:center">
+          <div id="viewSummary" style="font-weight:600;color:var(--muted)"></div>
+          <div>
+            <button class="btn btn-secondary" id="viewClose">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast / Snackbar -->
+    <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"><span class="msg"></span></div>
+
+  </div>
+
+  <!-- Centralized frontend config -->
+  <script src="config.js"></script>
+  <script src="teacher-portal.js"></script>
+</body>
+</html>

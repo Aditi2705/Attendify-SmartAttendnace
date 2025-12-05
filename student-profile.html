@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Profile - Smart Attendance</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="student-profile.css">
+</head>
+<body>
+
+    <div class="container">
+        <header class="header">
+            <h1>Student Profile</h1>
+            <button class="logout-btn">Logout</button>
+        </header>
+        <p class="welcome-msg" id="welcome-message"></p>
+
+        <div id="attendance-alert-container"></div>
+
+        <section class="card student-info-card">
+            <div class="profile-pic" id="profile-pic"></div>
+            <div class="student-details" id="student-details"></div>
+        </section>
+
+        <section class="card attendance-summary-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <h2 style="margin: 0;">Overall Attendance</h2>
+                <div style="display: flex; gap: 8px; align-items: center;">
+                    <label for="semesterSelector" style="font-weight: 600;">Select Semester:</label>
+                    <select id="semesterSelector" style="padding: 8px 12px; border-radius: 5px; border: 1px solid #ddd; font-size: 14px; cursor: pointer;">
+                        <option value="">All Semesters</option>
+                    </select>
+                </div>
+            </div>
+            <div id="overall-attendance-summary"></div>
+        </section>
+
+        <section class="card">
+            <div class="tabs">
+                <button class="tab-link active" onclick="openTab(event, 'subject-wise')">Subject-wise</button>
+                <button class="tab-link" onclick="openTab(event, 'semester-wise')">Semester-wise</button>
+                <button class="tab-link" onclick="openTab(event, 'monthly')">Monthly</button>
+            </div>
+
+            <div id="subject-wise" class="tab-content active">
+                <h3>Subject-wise Attendance</h3>
+                <div class="subject-cards" id="subject-cards-container"></div>
+            </div>
+
+            <div id="semester-wise" class="tab-content">
+                <h3>Semester-wise Attendance</h3>
+                <div class="semester-cards" id="semester-cards-container"></div>
+            </div>
+
+            <div id="monthly" class="tab-content">
+                <h3>Monthly Attendance</h3>
+                <div class="monthly-cards" id="monthly-cards-container"></div>
+            </div>
+        </section>
+
+        <section class="card">
+            <h3>Recent Attendance Activity</h3>
+            <table class="recent-activity-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Subject</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="recent-activity-body"></tbody>
+            </table>
+        </section>
+    </div>
+
+    <script src="student-profile.js"></script>
+</body>
+</html>

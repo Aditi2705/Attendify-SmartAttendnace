@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Attendance Management System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Attendify</h1>
+        <p class="tagline">Empowering education through seamless presence tracking.</p>
+    </header>
+
+    <div class="form-container">
+        <!-- Student Login Form -->
+        <div id="studentLoginForm" class="form-wrapper active">
+            <h2>Student Login</h2>
+            <form>
+                <div class="form-group">
+                    <input type="text" id="studentRollNo" placeholder="Roll No." required>
+                    <div class="error-message" id="studentRollNoError"></div>
+                </div>
+                <div class="form-group password-group">
+                    <div class="input-with-toggle">
+                        <input type="password" id="studentPassword" placeholder="Password" required>
+                        <span class="password-toggle" data-target="studentPassword">👁️</span>
+                    </div>
+                    <div class="error-message" id="studentPasswordError"></div>
+                </div>
+                <button type="submit" class="submit-button" id="studentLoginBtn" disabled>Login</button>
+            </form>
+            <div class="form-links">
+                <a href="#" id="showStudentRegister">Register</a>
+                <a href="#" id="showTeacherLogin">Teacher Login</a>
+            </div>
+        </div>
+        
+
+        <!-- Student Registration Form -->
+        <div id="studentRegisterForm" class="form-wrapper">
+            <h2>Student Registration</h2>
+            <form>
+                <div class="form-group">
+                    <input type="text" id="regFullName" placeholder="Full Name" required>
+                    <div class="error-message" id="regFullNameError"></div>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="regEmail" placeholder="Email" required>
+                    <div class="error-message" id="regEmailError"></div>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="regRollNo" placeholder="Roll No." required>
+                    <div class="error-message" id="regRollNoError"></div>
+                </div>
+                <div class="form-group">
+                    <select id="regCourse" required>
+                        <option value="">Select Course</option>
+                    </select>
+                    <div class="error-message" id="regCourseError"></div>
+                </div>
+                <div class="form-group">
+                    <select id="regBatch" required>
+                        <option value="">Select Batch</option>
+                    </select>
+                    <div class="error-message" id="regBatchError"></div>
+                </div>
+                <div class="form-group password-group">
+                    <div class="input-with-toggle">
+                        <input type="password" id="regPassword" placeholder="Password" required>
+                        <span class="password-toggle" data-target="regPassword">👁️</span>
+                    </div>
+                    <div class="error-message" id="regPasswordError"></div>
+                    <div class="password-strength">
+                        <div class="strength-item" id="strengthUppercase"><span class="icon">✗</span> At least 1 uppercase character (A-Z)</div>
+                        <div class="strength-item" id="strengthLowercase"><span class="icon">✗</span> At least 1 lowercase character (a-z)</div>
+                        <div class="strength-item" id="strengthNumber"><span class="icon">✗</span> At least 1 number (0-9)</div>
+                        <div class="strength-item" id="strengthSymbol"><span class="icon">✗</span> At least 1 symbol (!@#$%^&*)</div>
+                        <div class="strength-item" id="strengthLength"><span class="icon">✗</span> Minimum 8 characters length</div>
+                    </div>
+                </div>
+                <div class="form-group password-group">
+                    <div class="input-with-toggle">
+                        <input type="password" id="regConfirmPassword" placeholder="Confirm Password" required>
+                        <span class="password-toggle" data-target="regConfirmPassword">👁️</span>
+                    </div>
+                    <div class="error-message" id="regConfirmPasswordError"></div>
+                </div>
+                <button type="submit" class="submit-button" id="studentRegisterBtn" disabled>Register</button>
+            </form>
+            <div class="form-links">
+                <a href="#" id="showStudentLoginFromRegister">Already registered? Login here</a>
+            </div>
+        </div>
+
+        <!-- Teacher Login Form -->
+        <div id="teacherLoginForm" class="form-wrapper">
+            <h2>Teacher Login</h2>
+            <form>
+                <div class="form-group">
+                    <input type="email" id="teacherEmail" placeholder="Email" required>
+                    <div class="error-message" id="teacherEmailError"></div>
+                </div>
+                <div class="form-group password-group">
+                    <div class="input-with-toggle">
+                        <input type="password" id="teacherPassword" placeholder="Password" required>
+                        <span class="password-toggle" data-target="teacherPassword">👁️</span>
+                    </div>
+                    <div class="error-message" id="teacherPasswordError"></div>
+                </div>
+                <button type="submit" class="submit-button" id="teacherLoginBtn" disabled>Login</button>
+            </form>
+            <div class="form-links">
+                <a href="#" id="showStudentLoginFromTeacher">Student Login</a>
+            </div>
+        </div>
+    </div>
+    <!-- Login loader (shown briefly on successful teacher login) -->
+    <div id="loginLoader" class="login-loader" aria-hidden="true">
+        <div class="login-loader-card" role="status" aria-live="polite">
+            <div class="spinner" aria-hidden="true"></div>
+            <div class="loader-message">Signing in...</div>
+        </div>
+    </div>
+
+        <script src="config.js"></script>
+        <script src="script.js" defer></script>
+</body>
+</html>

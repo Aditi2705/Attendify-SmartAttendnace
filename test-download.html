@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test XLSX Download</title>
+</head>
+<body>
+    <h1>Test XLSX Download</h1>
+    <button id="testBtn">Click to Download</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.min.js"></script>
+    <script>
+        document.getElementById('testBtn').addEventListener('click', function() {
+            console.log('Button clicked');
+            console.log('XLSX:', typeof XLSX);
+            
+            if (typeof XLSX === 'undefined') {
+                alert('XLSX not loaded!');
+                return;
+            }
+
+            const data = [
+                { fullName: 'John Doe', email: 'john@example.com', rollNo: 'CSE001', className: 'B.Tech CSE 2021-2025' },
+                { fullName: 'Jane Smith', email: 'jane@example.com', rollNo: 'CSE002', className: 'B.Tech CSE 2021-2025' }
+            ];
+
+            const ws = XLSX.utils.json_to_sheet(data);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Students');
+            XLSX.writeFile(wb, 'test-template.xlsx');
+            alert('Download triggered!');
+        });
+    </script>
+</body>
+</html>

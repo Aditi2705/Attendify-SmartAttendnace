@@ -1,0 +1,397 @@
+/* General Styling */
+:root {
+    --primary-color: #007bff; /* Blue */
+    --secondary-color: #6c757d; /* Gray */
+    --accent-color: #20c997; /* Teal */
+    --background-color: #f8f9fa; /* Light Gray */
+    --card-background: #ffffff; /* White */
+    --text-color: #343a40; /* Dark Gray */
+    --border-color: #dee2e6; /* Light Border */
+    --error-color: #dc3545; /* Red */
+    --success-color: #28a745; /* Green */
+    --shadow-light: 0 4px 8px rgba(0, 0, 0, 0.05);
+    --shadow-medium: 0 8px 16px rgba(0, 0, 0, 0.1);
+    --transition-speed: 0.3s;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    /* Open Sans: clean, modern, highly legible font */
+    font-family: 'Open Sans', -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-size: 14px; /* slightly smaller base size */
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Header Styling */
+header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 20px;
+    width: 100%;
+    max-width: 500px;
+}
+
+h1 {
+    /* Open Sans for consistent typography */
+    font-family: 'Open Sans', -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-size: 2.2rem;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.tagline {
+    font-size: 1.2em;
+    color: var(--secondary-color);
+    font-weight: 400;
+}
+
+/* Form Container */
+.form-container {
+    background-color: var(--card-background);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: var(--shadow-medium);
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* When registration mode is active, expand the container to accommodate a
+   two-column registration layout. This is animated so the container grows
+   smoothly and only affects registration (via .mode-register toggled in JS). */
+.form-container.mode-register {
+    max-width: 820px; /* Wider container for horizontal registration */
+    transition: max-width calc(var(--transition-speed) * 1.2) ease;
+}
+
+.form-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 30px; /* Match container padding */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* Start hidden and slightly translated so we can animate into view */
+    opacity: 0;
+    transform: translateY(12px) scale(0.995);
+    pointer-events: none;
+    transition: opacity var(--transition-speed) ease, transform var(--transition-speed) ease;
+}
+
+.form-wrapper.active {
+    /* Ensure the active form is in-flow so the container sizes to it */
+    position: static;
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+    z-index: 2; /* Active form above inactive ones */
+    /* Keep content top aligned to avoid vertical re-centering */
+    justify-content: flex-start;
+    align-items: stretch;
+}
+
+.form-wrapper h2 {
+    color: var(--primary-color);
+    margin-bottom: 25px;
+    font-size: 1.8em;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Form Elements */
+.form-group {
+    margin-bottom: 20px;
+    width: 100%;
+    position: relative; /* Ensure positioning context for children */
+}
+
+/* Layout specific to the Student Registration form: display fields in two
+   columns so the registration becomes wider (horizontal) and reduces vertical
+   scrolling. This is intentionally scoped to #studentRegisterForm so login
+   forms remain unaffected. */
+#studentRegisterForm form {
+    display: grid;
+    /* On narrow container sizes the columns will remain proportional.
+       Use slightly asymmetric columns for better space distribution on wide screens */
+    grid-template-columns: 1fr 1fr;
+    gap: 16px 22px; /* row-gap col-gap */
+    align-items: start;
+    align-content: start;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Remove default bottom margin because grid gap provides spacing */
+#studentRegisterForm .form-group {
+    margin-bottom: 0;
+}
+
+/* Make password groups (which include strength UI) span full width */
+#studentRegisterForm .form-group.password-group {
+    grid-column: 1 / -1;
+}
+
+/* Make the submit button full width across both columns */
+#studentRegisterForm .submit-button {
+    grid-column: 1 / -1;
+    width: 220px; /* fixed width to make a centered button */
+    margin: 18px auto 0; /* center horizontally and sit at bottom */
+    justify-self: center;
+}
+
+/* Ensure selects and inputs inside the grid take full column width */
+#studentRegisterForm .form-group input,
+#studentRegisterForm .form-group select {
+    width: 100%;
+}
+
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.form-group input[type="text"],
+.form-group input[type="password"],
+.form-group input[type="email"],
+.form-group select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 1em;
+    color: var(--text-color);
+    transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+}
+
+/* Add padding to password inputs to make space for the toggle icon */
+.form-group.password-group input[type="password"] {
+    /* kept for backward compatibility when no wrapper exists */
+    padding-right: 45px; /* Adjust as needed to fit the icon */
+}
+
+/* New wrapper that contains the input and toggle so the toggle centers against the input
+   instead of the entire .form-group (which can be taller when strength/errors appear). */
+.input-with-toggle {
+    position: relative;
+    width: 100%;
+}
+
+.input-with-toggle input[type="password"] {
+    width: 100%;
+    padding-right: 45px; /* space for the icon */
+    box-sizing: border-box;
+}
+
+/* Ensure inputs in the wrapper have a stable height to avoid small reflows
+   (which can cause the parent centered flex container to re-layout). */
+.input-with-toggle input {
+    min-height: 44px;
+}
+
+/* Prevent the toggle icon from being text-selectable and ensure it doesn't
+   introduce accidental focus styles in some browsers. */
+.password-toggle {
+    user-select: none;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+    outline: none;
+}
+
+/* Loader overlay shown briefly on successful login */
+.login-loader{
+    position:fixed;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:rgba(255,255,255,0.85);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 280ms ease;
+    z-index:9999;
+}
+.login-loader.show{opacity:1;pointer-events:auto}
+.login-loader-card{background:var(--card);padding:20px 26px;border-radius:12px;box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;gap:12px}
+.spinner{width:56px;height:56px;border-radius:50%;border:6px solid #eef2f7;border-top-color:var(--primary);animation:spin 900ms linear infinite}
+.loader-message{font-weight:700;color:var(--primary);font-size:1rem}
+@keyframes spin{to{transform:rotate(360deg)}}
+body.no-scroll{overflow:hidden}
+
+.password-toggle {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: var(--secondary-color);
+    font-size: 1.1em;
+    z-index: 1; /* Ensure it's above the input */
+}
+
+.error-message {
+    color: var(--error-color);
+    font-size: 0.85em;
+    margin-top: 5px;
+    display: none; /* Hidden by default */
+}
+
+.form-group.invalid input,
+.form-group.invalid select {
+    border-color: var(--error-color);
+}
+
+.form-group.invalid .error-message {
+    /* keep default hidden; visibility is controlled by form.attempted */
+    display: none;
+}
+
+/* Show error messages only when the form has been attempted (submit clicked) */
+form.attempted .form-group.invalid .error-message {
+    display: block;
+}
+
+/* Password Strength Indicator */
+.password-strength {
+    margin-top: 10px;
+    font-size: 0.85em;
+    color: var(--secondary-color);
+}
+
+.strength-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.strength-item .icon {
+    margin-right: 8px;
+    font-weight: 600;
+}
+
+.strength-item.valid .icon {
+    color: var(--success-color);
+}
+
+.strength-item.invalid .icon {
+    color: var(--error-color);
+}
+
+/* Buttons */
+.submit-button {
+    width: 100%;
+    padding: 12px 20px;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+    margin-top: 15px;
+}
+
+.submit-button:hover:not(:disabled) {
+    background-color: #0056b3; /* Darker blue */
+    box-shadow: var(--shadow-light);
+}
+
+.submit-button:disabled {
+    background-color: var(--secondary-color);
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Links */
+.form-links {
+    margin-top: 25px;
+    text-align: center;
+    font-size: 0.95em;
+}
+
+.form-links a {
+    color: var(--primary-color);
+    text-decoration: none;
+    margin: 0 10px;
+    transition: color var(--transition-speed) ease;
+}
+
+.form-links a:hover {
+    color: #0056b3; /* Darker blue */
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 2.5em;
+    }
+
+    .tagline {
+        font-size: 1em;
+    }
+
+    .form-container {
+        padding: 20px;
+        margin: 0 10px;
+    }
+
+    .form-wrapper {
+        padding: 20px;
+    }
+
+    .form-wrapper h2 {
+        font-size: 1.5em;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .submit-button {
+        padding: 10px 12px;
+        font-size: 1em;
+    }
+
+    .form-links a {
+        display: block;
+        margin: 10px 0;
+    }
+
+    /* Revert registration layout to single column on small screens */
+    #studentRegisterForm form {
+        display: block;
+    }
+    #studentRegisterForm .form-group {
+        margin-bottom: 15px;
+    }
+}
