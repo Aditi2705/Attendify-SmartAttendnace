@@ -1,4 +1,4 @@
-# Smart Attendance Management System
+# Attendify - Smart Attendance Management System
 
 A modern, web-based attendance management system for educational institutions. Teachers mark attendance efficiently, and students track their attendance records in real-time.
 
